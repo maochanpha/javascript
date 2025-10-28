@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>កម្មវិធីគណនាពន្ធលើប្រាក់បៀវត្ស</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Khmer&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Khmer", sans-serif;
+        }
+        body {
+            background-color: #f2f2f2;
+        }
+        header {
+            background-color: gold;
+            color: black;
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: -15px;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .container p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+        input {
+            width: 70%;
+        }
+        button {
+            background-color: gold;
+            color: black;
+            cursor: pointer;
+            width: 20%;
+        }
+        button:hover {
+            background-color: goldenrod;
+        }
+        .counter-box {
+            display: inline-block;
+            font-size: 24px;
+            margin: 0 10px;
+        }
+        .result-box {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>កម្មវិធីគណនាពន្ធលើប្រាក់បៀវត្ស</p>
+</header>
+
+<div class="container">
+    <p>ប្រភេទរូបិយប័ណ្ណ</p>
+    <button onclick="changeCurrency('KHR')">រៀល (KHR)</button>
+    <button onclick="changeCurrency('USD')">ដុល្លារ (USD)</button>
+
+    <p>ប្រាក់បៀវត្សប្រចាំខែ</p>
+    <input type="number" id="salary" placeholder="0 រៀល">
+    
+    <p>អត្ថប្រយោជន៍បន្ថែម</p>
+    <input type="number" id="benefit" placeholder="0 រៀល">
+    
+    <br><br>
+    <button onclick="calculateTax()">គណនាពន្ធ</button>
+
+    <div id="result" class="result-box"></div>
+</div>
+
+<script>
+    let currency = 'KHR';
+    let count = 0;
+
+
+    function changeCurrency(curr) {
+        currency = curr;
+        document.getElementById('salary').placeholder = `0 ${curr}`;
+        document.getElementById('benefit').placeholder = `0 ${curr}`;
+    }
+
+    function changeCount(amount) {
+        count = Math.max(0, count + amount);
+        document.getElementById('counter').innerText = count;
+    }
+
+    function calculateTax() {
+    const salary = parseFloat(document.getElementById('salary').value) || 0;
+    const benefit = parseFloat(document.getElementById('benefit').value) || 0;
+    const resultBox = document.getElementById('result');
+
+    // Define deduction per child
+    const deductionPerChild = (currency === 'KHR') ? 150000 : 37.5;
+    const childDeduction = count * deductionPerChild;
+
+    // Total deduction = benefit + child deduction
+    const totalDeduction = benefit + childDeduction;
+
+    // New Taxable Income
+    const taxableIncome = salary - totalDeduction;
+
+    let tax = 0;
+    let taxBracket = 0;
+    if (currency === 'KHR') {
+        if (taxableIncome <= 1500000) {
+            tax = 0;
+            taxBracket = 0;
+        } else if (taxableIncome <= 2000000) {
+            tax = (taxableIncome - 1500000) * 0.05;
+            taxBracket = 5;
+        } else if (taxableIncome <= 8500000) {
+            tax = (taxableIncome - 2000000) * 0.10 + 25000;
+            taxBracket = 10;
+        } else if (taxableIncome <= 12500000) {
+            tax = (taxableIncome - 8500000) * 0.15 + 675000;
+            taxBracket = 15;
+        } else {
+            tax = (taxableIncome - 12500000) * 0.20 + 1275000;
+            taxBracket = 20;
+        }
+    } else if (currency === 'USD') {
+        if (taxableIncome <= 375) {
+            tax = 0;
+            taxBracket = 0;
+        } else if (taxableIncome <= 500) {
+            tax = (taxableIncome - 375) * 0.05;
+            taxBracket = 5;
+        } else if (taxableIncome <= 2125) {
+            tax = (taxableIncome - 500) * 0.10 + 6.25;
+            taxBracket = 10;
+        } else if (taxableIncome <= 3125) {
+            tax = (taxableIncome - 2125) * 0.15 + 181.25;
+            taxBracket = 15;
+        } else {
+            tax = (taxableIncome - 3125) * 0.20 + 331.25;
+            taxBracket = 20;
+        }
+    } else {
+        tax = salary * 0.20;
+        taxableIncome = salary; 
+        taxBracket = 20;
+    }
+
+    const symbol = (currency === 'KHR') ? "៛" : "$";
+    resultBox.innerHTML = 
+    `ពន្ធលើប្រាក់បៀវត្ស: ${taxableIncome.toFixed(2)} ${symbol}<br>
+    ពន្ធលើអត្ថប្រយោជន៍បន្ថែម: ${tax.toFixed(2)} ${symbol}<br>
+    អត្រាពន្ធ: ${taxBracket}%<br>`;
+}
+
+</script>
+
+</body>
+</html>

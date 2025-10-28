@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p> The rest parameter (...) allows a function to treat an indefinite number of arguments as an array:</p>
+    <p id="demo"></p>
+
+    <script>
+        function myFunction(...args){
+            let sum = 0;
+            for (let arg of args ) sum +=arg;
+            return sum;
+        }
+
+        let x = myFunction(4 ,9, 16, 25, 29, 100, 66, 77);
+        document.getElementById("demo").innerHTML = x;
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 30px;
+        }
+        .game-container {
+            background-color: skyblue; 
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="number"] {
+            width: 120px;
+            padding: 5px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Guess the Number!</h1>
+        <p>Guess a number between 1 and 100:</p>
+        <input type="number" id="guessInput" min="1" max="100">
+        <button id="submitGuess">Submit Guess</button>
+        <p id="result"></p>
+        <p id="attempts"></p>
+        <button id="restartButton" style="display: none;">Restart Game</button>
+    </div>
+
+    <script>
+        // JavaScript code for the guessing game
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        const guessInput = document.getElementById('guessInput');
+        const submitGuess = document.getElementById('submitGuess');
+        const result = document.getElementById('result');
+        const attemptsDisplay = document.getElementById('attempts');
+        const restartButton = document.getElementById('restartButton');
+
+        submitGuess.addEventListener('click', () => {
+            const userGuess = parseInt(guessInput.value);
+            attempts++;
+
+            if (userGuess === randomNumber) {
+                result.textContent = `Congratulations! You guessed the number ${randomNumber} in ${attempts} attempts.`;
+                restartButton.style.display = 'block';
+                submitGuess.disabled = true;
+            } else if (userGuess < randomNumber) {
+                result.textContent = 'Too low! Try again.';
+            } else {
+                result.textContent = 'Too high! Try again.';
+            }
+
+            attemptsDisplay.textContent = `Attempts: ${attempts}`;
+            guessInput.value = '';
+        });
+
+        guessInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                submitGuess.click();
+            }
+        });
+
+        restartButton.addEventListener('click', () => {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            result.textContent = '';
+            attemptsDisplay.textContent = '';
+            guessInput.value = '';
+            restartButton.style.display = 'none';
+            submitGuess.disabled = false;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Khmer&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Khmer", "Kdam Thmor Pro", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f2f2f2 100%);
+    min-height: 100vh;
+} 
+
+header {
+    background: linear-gradient(90deg, #4169e4 60%, #274bb5 100%);
+    color: #fff;
+    text-align: center;
+    padding: 40px 0 30px 0;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0 4px 24px rgba(65, 105, 228, 0.15);
+    margin-bottom: 40px;
+}
+
+header img {
+    margin-top: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(65, 105, 228, 0.08);
+}
+
+nav p {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.container {
+    width: 95%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 32px 24px 24px 24px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 6px 32px rgba(65, 105, 228, 0.10);
+    text-align: center;
+    font-size: 1.2rem;
+    transition: box-shadow 0.2s;
+}
+
+.container:hover {
+    box-shadow: 0 12px 48px rgba(65, 105, 228, 0.18);
+}
+
+.container label {
+    display: block;
+    margin: 18px 0 8px 0;
+    font-size: 1.1rem;
+    color: #274bb5;
+    text-align: left;
+}
+
+.container input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border: 1px solid #bfc8e6;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.container input[type="number"]:focus {
+    border-color: #4169e4;
+    outline: none;
+}
+
+.container button {
+    background: linear-gradient(90deg, #4169e4 60%, #274bb5 100%);
+    color: white;
+    padding: 14px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 24px;
+    width: 100%;
+    box-shadow: 0 2px 12px rgba(65, 105, 228, 0.10);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.container button:hover {
+    background: linear-gradient(90deg, #274bb5 60%, #4169e4 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(65, 105, 228, 0.18);
+}
+
+.result-box {
+    margin-top: 30px;
+    background: #e0e7ff;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 1.1rem;
+    color: #274bb5;
+    box-shadow: 0 2px 12px rgba(65, 105, 228, 0.08);
+}
+.back-home-btn {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 32px;
+    background: linear-gradient(90deg, #4169e4 60%, #274bb5 100%);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 2px 12px rgba(65, 105, 228, 0.10);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.back-home-btn:hover {
+    background: linear-gradient(90deg, #274bb5 60%, #4169e4 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(65, 105, 228, 0.18);
+}
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <p>គណនាពិន្ទុ វិទ្យាសាស្រ្ត</p>
+            <img src="Moeys.png" width="150px" height="160px" >
+        </nav>
+    </header>
+    <div class="container">
+        <form action="scoreform" onsubmit="event.preventDefault(); calculatescore();">
+            <label>គណិតវិទ្យា : <input type="number" name="score1" required></label> <br>
+            <label>អក្សរសាស្ត្រខ្មែរ : <input type="number" name="score2" required></label><br>
+            <label>ជីវវិទ្យា : <input type="number" name="score3" required></label><br>
+            <label>គីមីវិទ្យា : <input type="number" name="score4" required></label><br>
+            <label>រូបវិទ្យា : <input type="number" name="score5" required></label><br>               
+            <label>ប្រវិត្តវិទ្យា : <input type="number" name="score6" required></label><br>
+            <label>ភាសាអង់គ្លេស : <input type="number" name="score7" required></label><br>
+            <button type="button" onclick="calculatescore()">គណនា</button>
+        </form>
+        <div id="result" class="result-box"></div>
+        <a href="bacll.html" class="back-home-btn">ត្រឡប់ទៅទំព័រដើម</a>
+        
+        <script>
+function calculatescore() {
+    // Get input values, default to 0 if empty
+    let scores = [
+        parseFloat(document.querySelector('input[name="score1"]').value) || 0,
+        parseFloat(document.querySelector('input[name="score2"]').value) || 0,
+        parseFloat(document.querySelector('input[name="score3"]').value) || 0,
+        parseFloat(document.querySelector('input[name="score4"]').value) || 0,
+        parseFloat(document.querySelector('input[name="score5"]').value) || 0,
+        parseFloat(document.querySelector('input[name="score6"]').value) || 0,
+        parseFloat(document.querySelector('input[name="score7"]').value) || 0
+    ];
+
+    // Subject definitions
+    const subjects = [
+        { name: "គណិតវិទ្យា", fullscore: 125 },
+        { name: "អក្សរសាស្ត្រខ្មែរ", fullscore: 75 },
+        { name: "ជីវវិទ្យា", fullscore: 75 },
+        { name: "គីមីវិទ្យា", fullscore: 75 },
+        { name: "រូបវិទ្យា", fullscore: 75 },
+        { name: "ប្រវត្តិសាស្ត្រ", fullscore: 50 },
+    ];
+
+    // Assign scores to subjects
+    for (let i = 0; i < subjects.length; i++) {
+        subjects[i].score = scores[i];
+    }
+
+    // Calculate total and percentage
+    let totalScore = subjects.reduce((sum, s) => sum + s.score, 0);
+    let totalFullScore = subjects.reduce((sum, s) => sum + s.fullscore, 0);
+    let percentage = (totalScore / totalFullScore) * 100;
+
+    // Grading
+    const gradescore = [
+        { grade: "A", percent: 0.9 },
+        { grade: "B", percent: 0.8 },
+        { grade: "C", percent: 0.7 },
+        { grade: "D", percent: 0.6 },
+        { grade: "E", percent: 0.5 }
+    ];
+    let grade = "";
+    for (let i = 0; i < gradescore.length; i++) {
+        if (percentage >= gradescore[i].percent * 100) {
+            grade = gradescore[i].grade;
+            break;
+        }
+    }
+    if (grade === "") {
+        grade = "F";
+    }
+
+    // Show result
+    let result = document.getElementById("result");
+    result.innerHTML = `
+        <h2>លទ្ធផល</h2>
+        <p>លំដាប់ពិន្ទុសរុប: ${totalScore} / ${totalFullScore}</p>
+        <p>ភាគរយ: ${percentage.toFixed(2)}%</p>
+        <p>និទេ្ទសពិន្ទុសរុប: ${grade}</p>
+    `;
+}
+        </script>
+    </div>
+</body>
+</html>

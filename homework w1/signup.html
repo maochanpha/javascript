@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="hw.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <div>
+        <div class="login-box">
+            <div class="login-header">
+                <header>Sign Up</header>
+            </div>
+            <div class="input-box">
+                <input type="text" id="newEmail" class="input-field" placeholder="Email" autocomplete="off" required>
+            </div>
+            <div class="input-box">
+                <input type="password" id="newPassword" class="input-field" placeholder="Password" autocomplete="off" required>
+            </div>
+            <div class="input-box">
+                <input type="password" id="confirmPassword" class="input-field" placeholder="Confirm Password" autocomplete="off" required>
+            </div>
+            <div class="input-submit">
+                <button class="submit-btn" id="signup" onclick="signUp()">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function signUp() {
+            const newEmail = document.getElementById("newEmail").value;
+            const newPassword = document.getElementById("newPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            localStorage.setItem("registeredEmail", newEmail);
+            localStorage.setItem("registeredPassword", newPassword);
+
+            alert("Sign up successful! You can now log in.");
+            window.location.href = "homework.html";
+        }
+    </script>
+</body>
+</html>
